@@ -1,232 +1,519 @@
-document.addEventListener("DOMContentLoaded", () => {
-  initArchitectureInspector();
-  initTerminal();
-  initIncidentSimulator();
-});
+/* Brian Tarira · Portfolio 2.0 · main.js
+ * Módulos: lluvia de fondo, typewriter, contadores, reveal, nav,
+ * diagrama de arquitectura clicable, simulador ITIL y terminal CLI.
+ */
+(() => {
+  'use strict';
 
-const nodeData = {
-  dns: {
-    title: "Route 53 & CloudFront (CDN & DNS)",
-    desc: "Enrutamiento inteligente de tráfico global con registros A, CNAME, Alias y políticas de Failover. Distribución de contenido estático mediante CloudFront con certificados SSL/TLS mediante AWS Certificate Manager (ACM)."
-  },
-  alb: {
-    title: "Application Load Balancer (ALB)",
-    desc: "Balanceador de carga HTTP/HTTPS de Capa 7. Distribuye las peticiones entre las diferentes instancias EC2 activas realizando Health Checks continuos sobre la ruta /health."
-  },
-  compute: {
-    title: "EC2 Auto Scaling Group (Compute Layer)",
-    desc: "Grupo de escalado automático para servidores Linux (Ubuntu/Debian) y Windows Server. Configuración de Golden Images (AMIs) y scripts de inicio UserData para el despliegue automatizado."
-  },
-  iam: {
-    title: "IAM & Entra ID (Identidad & Seguridad Híbrida)",
-    desc: "Gestión de identidades con política de mínimo privilegio (Least Privilege), integración con Microsoft Entra ID (Azure AD), roles IAM para instancias EC2 y autenticación MFA obligatoria."
-  },
-  storage: {
-    title: "AWS S3 & Scripting de Backup",
-    desc: "Buckets S3 con cifrado en reposo (SSE-S3), políticas de ciclo de vida (Lifecycle Rules a Glacier) y scripts en Bash/PowerShell para el volcado automático de bases de datos y registros."
-  },
-  iac: {
-    title: "Terraform & Automation CI/CD",
-    desc: "Infraestructura como código (IaC) modularizada en Terraform para aprovisionar VPC, Subnets y Security Groups. Integración con pipelines de integración y despliegue continuo."
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- 1. Lluvia de datos de fondo ---------- */
+  function matrixRain() {
+    const canvas = $('#matrix');
+    if (!canvas || reduceMotion) return;
+    const ctx = canvas.getContext('2d');
+    const glyphs = '01<>/{}#$AWSAZURE';
+    const FS = 16;
+    let drops = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const cols = Math.floor(canvas.width / FS);
+      drops = Array.from({ length: cols }, () => Math.random() * -40);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    setInterval(() => {
+      if (document.hidden) return;
+      ctx.fillStyle = 'rgba(5, 7, 13, 0.12)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${FS - 2}px monospace`;
+      drops.forEach((y, i) => {
+        const ch = glyphs[Math.floor(Math.random() * glyphs.length)];
+        ctx.fillStyle = Math.random() > 0.97 ? '#ff9900' : '#00f0ff';
+        ctx.fillText(ch, i * FS, y * FS);
+        drops[i] = (y * FS > canvas.height && Math.random() > 0.975) ? 0 : y + 1;
+      });
+    }, 60);
   }
-};
 
-function initArchitectureInspector() {
-  const nodes = document.querySelectorAll(".arch-node");
-  const titleEl = document.getElementById("inspectorTitle");
-  const contentEl = document.getElementById("inspectorContent");
-  const closeBtn = document.querySelector(".close-inspector");
+  /* ---------- 2. Typewriter del hero ---------- */
+  function typewriter() {
+    const el = $('#typed');
+    if (!el) return;
+    const words = [
+      'Cloud & Systems Engineer Junior',
+      'DevOps · AWS · Linux · Windows Server',
+      'Automatizo lo repetitivo. Tú ganas tiempo.',
+      'Reduje el trabajo manual más de un 60 %.'
+    ];
+    if (reduceMotion) { el.textContent = words[0]; return; }
 
-  nodes.forEach(node => {
-    node.addEventListener("click", () => {
-      nodes.forEach(n => n.classList.remove("active-node"));
-      node.classList.add("active-node");
-      const key = node.getAttribute("data-node");
-      if (nodeData[key]) {
-        titleEl.innerHTML = `<i class="fas fa-server"></i> ${nodeData[key].title}`;
-        contentEl.innerHTML = `<p>${nodeData[key].desc}</p>`;
+    let w = 0, i = 0, deleting = false;
+    const tick = () => {
+      const word = words[w];
+      if (!deleting) {
+        i++;
+        el.textContent = word.slice(0, i);
+        if (i === word.length) { deleting = true; return setTimeout(tick, 1600); }
+        return setTimeout(tick, 70);
       }
-    });
-  });
-
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      nodes.forEach(n => n.classList.remove("active-node"));
-      titleEl.innerHTML = `<i class="fas fa-info-circle"></i> Selecciona un nodo del diagrama`;
-      contentEl.innerHTML = `<p class="text-muted">Haz clic en cualquier nodo para inspeccionar los detalles técnicos.</p>`;
-    });
+      i--;
+      el.textContent = word.slice(0, i);
+      if (i === 0) {
+        deleting = false;
+        w = (w + 1) % words.length;
+        return setTimeout(tick, 400);
+      }
+      setTimeout(tick, 35);
+    };
+    tick();
   }
-}
 
-function initTerminal() {
-  const input = document.getElementById("terminalInput");
-  if (!input) return;
+  /* ---------- 3. Contadores animados ---------- */
+  function counters() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        io.unobserve(el);
+        const target = Number(el.dataset.count);
+        const pre = el.dataset.prefix || '';
+        const suf = el.dataset.suffix || '';
+        if (reduceMotion) { el.textContent = pre + target + suf; return; }
+        const t0 = performance.now();
+        const dur = 1400;
+        const step = (now) => {
+          const p = Math.min((now - t0) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = pre + Math.round(target * eased) + suf;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.6 });
+    $$('[data-count]').forEach((el) => io.observe(el));
+  }
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      const command = input.value.trim();
-      if (command) {
-        runCommand(command);
-        input.value = "";
-      }
+  /* ---------- 4. Revelado al hacer scroll ---------- */
+  function reveal() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+    $$('.reveal').forEach((el) => io.observe(el));
+  }
+
+  /* ---------- 5. Menú móvil ---------- */
+  function nav() {
+    const btn = $('.nav-toggle');
+    const links = $('.nav-links');
+    if (!btn || !links) return;
+    btn.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    $$('.nav-links a').forEach((a) => a.addEventListener('click', () => {
+      links.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }));
+  }
+
+  /* ---------- 6. Diagrama de arquitectura clicable ---------- */
+  const NODES = {
+    users: {
+      title: 'Usuarios',
+      desc: 'Tráfico HTTPS desde navegador y móvil. Un único punto de entrada: los servicios internos nunca se exponen directamente.',
+      impact: 'Superficie de ataque reducida a un solo endpoint público.',
+      tags: ['HTTPS', 'Edge']
+    },
+    cloudflare: {
+      title: 'Cloudflare · WAF / CDN',
+      desc: 'Filtra tráfico malicioso, cachea estáticos y oculta la IP de origen. Reglas WAF y protección frente a DDoS antes de tocar AWS.',
+      impact: 'Menos carga en origen y bloqueo de tráfico hostil en el perímetro.',
+      tags: ['WAF', 'CDN', 'DDoS']
+    },
+    route53: {
+      title: 'Route 53',
+      desc: 'Resolución DNS con registros A y CNAME para el dominio. Base para failover y enrutamiento según salud del servicio.',
+      impact: 'Cambios de infraestructura sin afectar al usuario: el DNS desacopla el origen.',
+      tags: ['DNS', 'Failover', 'Health checks']
+    },
+    nginx: {
+      title: 'Nginx · Reverse proxy',
+      desc: 'Termina TLS, redirige HTTP a HTTPS y reenvía hacia los contenedores. Cada cambio se valida con nginx -t antes de recargar.',
+      impact: 'Un único punto de control para caché, cabeceras de seguridad y balanceo.',
+      tags: ['TLS', 'Proxy', 'nginx -t']
+    },
+    ec2: {
+      title: 'EC2 · Docker',
+      desc: 'Instancia Linux con Docker y Docker Compose. Despliegue reproducible desde Git mediante CI/CD, con el mismo artefacto en dev y prod.',
+      impact: 'Entornos idénticos y despliegues en minutos en lugar de horas.',
+      tags: ['EC2', 'Docker', 'Compose', 'CI/CD']
+    },
+    rds: {
+      title: 'PostgreSQL',
+      desc: 'Base de datos con backups y acceso restringido mediante Security Groups. Sin exposición pública a Internet.',
+      impact: 'Datos fuera del servidor de aplicación y recuperación ante fallos.',
+      tags: ['PostgreSQL', 'Backups', 'Security Groups']
+    },
+    s3: {
+      title: 'S3 · Backups',
+      desc: 'Almacenamiento de objetos para backups y artefactos, con ciclo de vida: transición a clases frías y expiración automática.',
+      impact: 'Coste de almacenamiento optimizado mediante lifecycle policies.',
+      tags: ['S3', 'Lifecycle', 'Versionado']
+    },
+    iam: {
+      title: 'IAM · Mínimo privilegio',
+      desc: 'Roles con permisos mínimos para EC2 y pipelines. Nada de claves de acceso de larga duración en el código.',
+      impact: 'Reduce el radio de impacto si una credencial se ve comprometida.',
+      tags: ['IAM', 'Least privilege', 'Roles']
+    },
+    entra: {
+      title: 'Entra ID · Intune',
+      desc: 'Identidad centralizada con MFA, acceso condicional y gestión de dispositivos (MDM). Es lo que administro a diario en Eskape IT.',
+      impact: 'Altas, bajas y cumplimiento de dispositivos desde un único panel.',
+      tags: ['Entra ID', 'MFA', 'Intune', 'MDM']
     }
-  });
-}
+  };
 
-function runCommand(cmd) {
-  const output = document.getElementById("terminalOutput");
-  const cleanCmd = cmd.toLowerCase().trim();
+  function architecture() {
+    const panel = $('#arch-detail');
+    const nodes = $$('.node');
+    if (!panel || !nodes.length) return;
 
-  const promptLine = document.createElement("div");
-  promptLine.className = "term-line";
-  promptLine.innerHTML = `<span class="term-prompt">brian@aws-cloud:~$</span> ${escapeHtml(cmd)}`;
-  output.appendChild(promptLine);
+    const render = (key) => {
+      const n = NODES[key];
+      if (!n) return;
+      nodes.forEach((g) => g.classList.toggle('active', g.dataset.node === key));
 
-  let responseText = "";
-  switch (cleanCmd) {
-    case "help":
-      responseText = `
-Comandos disponibles:
-  <span class="cmd-keyword">skills</span>         - Muestra el stack de tecnologías y nivel
-  <span class="cmd-keyword">aws status</span>     - Estado de los servicios Cloud simulados
-  <span class="cmd-keyword">terraform plan</span> - Ejecuta simulación de plan de infraestructura
-  <span class="cmd-keyword">cat cv.txt</span>     - Muestra un resumen del Curriculum Vitae
-  <span class="cmd-keyword">contacto</span>       - Muestra correo y redes profesionales
-  <span class="cmd-keyword">clear</span>          - Limpia la pantalla de la terminal
-      `;
-      break;
-    case "skills":
-      responseText = `
-[+] Stack Técnico Brian Tarira:
-  - AWS Cloud: VPC, EC2, S3, IAM, Route53, ALB, CloudWatch
-  - Sistemas: Linux (Ubuntu/Debian/openSUSE), Windows Server, Active Directory, Entra ID
-  - Scripting: PowerShell, Bash, Python
-  - IaC & DevOps: Terraform, Git, GitHub Actions, Docker (básico)
-  - Metodología: ITIL v4 (Gestión >40 tickets/mes)
-      `;
-      break;
-    case "aws status":
-      responseText = `
-[AWS Cloud Health Status - us-east-1]
-  ✔ VPC (10.0.0.0/16) ...... OK (Public & Private Subnets)
-  ✔ EC2 Auto Scaling ........ OK (3 Healthy Instances)
-  ✔ ALB Load Balancer ....... OK (0UnhealthyTargetCount)
-  ✔ S3 Backup Buckets ....... OK (Encrypted AES-256)
-      `;
-      break;
-    case "terraform plan":
-      responseText = `
-<span class="highlight">Terraform v1.6.0 on linux_amd64</span>
-Initializing provider plugins...
-Executing plan...
+      panel.innerHTML = '';
+      const h = document.createElement('h3');
+      h.textContent = n.title;
+      const p = document.createElement('p');
+      p.textContent = n.desc;
+      const impact = document.createElement('p');
+      impact.className = 'impact';
+      impact.textContent = '→ ' + n.impact;
+      const ul = document.createElement('ul');
+      ul.className = 'tags';
+      n.tags.forEach((t) => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        ul.appendChild(li);
+      });
+      panel.append(h, p, impact, ul);
 
-An execution plan has been generated:
-  <span style="color:var(--accent-green)">+ aws_instance.web_server</span> (t3.micro)
-  <span style="color:var(--accent-green)">+ aws_security_group.allow_tls</span> (port 443, 80)
-  <span style="color:var(--accent-green)">+ aws_s3_bucket.portfolio_assets</span>
+      panel.classList.remove('flash');
+      void panel.offsetWidth; // reinicia la animación
+      panel.classList.add('flash');
+    };
 
-Plan: 3 to add, 0 to change, 0 to destroy.
-      `;
-      break;
-    case "cat cv.txt":
-      responseText = `
-BRIAN TARIRA - Cloud & Systems Engineer Junior
-------------------------------------------------
-Ubicación: Barcelona (Híbrido/Remoto)
-Idiomas: Español (Nativo), Catalán (Nativo), Inglés (B2)
-Resumen: Especialista en soporte N1/N2, automatización de sistemas y despliegues en AWS Cloud con enfoque en mejores prácticas ITIL.
-      `;
-      break;
-    case "contacto":
-      responseText = `
-Email: briandouglas795@gmail.com
-GitHub: https://github.com/briantarira7ea
-LinkedIn: https://linkedin.com/in/brian-tarira/
-      `;
-      break;
-    case "clear":
-      output.innerHTML = "";
-      return;
-    default:
-      responseText = `Comando no reconocido: <span style="color:#ef4444">${escapeHtml(cmd)}</span>. Escribe <span class="cmd-keyword">'help'</span> para ver la lista.`;
-      break;
-  }
-
-  const responseLine = document.createElement("div");
-  responseLine.className = "term-line";
-  responseLine.innerHTML = responseText;
-  output.appendChild(responseLine);
-  output.scrollTop = output.scrollHeight;
-}
-
-function escapeHtml(text) {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-const ticketsData = {
-  1: {
-    title: "#INC-402: Provisionamiento Entra ID & Intune",
-    desc: "El departamento de RRHH solicita alta urgente para un nuevo empleado Cloud Junior con asignación de licencias M365 y políticas de cumplimiento Intune.",
-    solution: [
-      "1. Creación de usuario en Microsoft Entra ID con política de contraseña segura.",
-      "2. Asignación al grupo de seguridad 'Cloud-DevOps-Team'.",
-      "3. Sincronización de licencias M365 y enrolamiento de dispositivo en Intune.",
-      "4. Validación de acceso con autenticación MFA (Microsoft Authenticator)."
-    ],
-    status: "Cerrado / Resuelto"
-  },
-  2: {
-    title: "#INC-809: Pico de Latencia en Servidor Web EC2",
-    desc: "Alerta automática de CloudWatch: Uso de CPU > 90% en la instancia web principal durante 15 minutos.",
-    solution: [
-      "1. Análisis de métricas en CloudWatch Logs e inspección SSH a la instancia.",
-      "2. Identificación de proceso bloqueado mediante comando 'top' / 'htop'.",
-      "3. Escalado horizontal automático mediante grupo Auto Scaling agregando 1 instancia adicional.",
-      "4. Reinicio de servicio NGINX y mitigación inmediata del pico de tráfico."
-    ],
-    status: "Cerrado / Resuelto"
-  },
-  3: {
-    title: "#INC-105: Corrección de Script Backup PowerShell",
-    desc: "El job programado en Task Scheduler falló al intentar exportar logs a la ruta de red compartida.",
-    solution: [
-      "1. Verificación del log de errores: Permiso denegado en la ruta SMB.",
-      "2. Corrección del script PowerShell añadiendo credenciales cifradas y manejo de excepciones (Try/Catch).",
-      "3. Prueba exitosa de ejecución manual y reprogramación de la tarea."
-    ],
-    status: "Cerrado / Resuelto"
-  }
-};
-
-function initIncidentSimulator() {
-  const btns = document.querySelectorAll(".ticket-btn");
-  const display = document.getElementById("ticketDetails");
-
-  function renderTicket(id) {
-    const data = ticketsData[id];
-    if (!data) return;
-
-    display.innerHTML = `
-      <div class="ticket-header" style="margin-bottom:15px;">
-        <h3 style="color:var(--accent-blue)">${data.title}</h3>
-        <span class="node-badge status-ok" style="margin-top:5px; display:inline-block">${data.status}</span>
-      </div>
-      <p style="color:var(--text-muted); margin-bottom:15px;"><strong>Descripción del problema:</strong> ${data.desc}</p>
-      <h4 style="color:var(--accent-aws); margin-bottom:10px;"><i class="fas fa-wrench"></i> Procedimiento de Resolución Aplicado:</h4>
-      <ul style="list-style:none; padding-left:0;">
-        ${data.solution.map(step => `<li style="margin-bottom:8px; font-size:0.9rem;"><i class="fas fa-check-circle" style="color:var(--accent-green); margin-right:8px;"></i>${step}</li>`).join('')}
-      </ul>
-    `;
-  }
-
-  btns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      btns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      const id = btn.getAttribute("data-ticket");
-      renderTicket(id);
+    nodes.forEach((g) => {
+      g.addEventListener('click', () => render(g.dataset.node));
+      g.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          render(g.dataset.node);
+        }
+      });
     });
-  });
+    render('ec2');
+  }
 
-  renderTicket(1);
-}
+  /* ---------- 7. Simulador de incidentes ITIL ---------- */
+  const TICKETS = [
+    {
+      id: 'INC-2041', prio: 'P2',
+      title: 'Usuario sin acceso a M365 tras cambio de contraseña',
+      steps: [
+        { prompt: 'Primer paso: ¿cómo verificas el problema?',
+          good: 'Revisar el estado de la cuenta y los sign-ins en Entra ID',
+          bad: 'Forzar un reset de contraseña sin verificar la identidad',
+          log: 'Cuenta activa. Bloqueo por acceso condicional detectado.' },
+        { prompt: 'El acceso está bloqueado por política. ¿Qué haces?',
+          good: 'Registrar el dispositivo en Intune y ajustar la excepción',
+          bad: 'Desactivar MFA para todos los usuarios',
+          log: 'Dispositivo registrado. Acceso restaurado de forma controlada.' },
+        { prompt: 'Cierre del ticket:',
+          good: 'Documentar la causa raíz en Jira y cerrar',
+          bad: 'Cerrar sin documentar',
+          log: 'Ticket cerrado con causa raíz documentada.' }
+      ]
+    },
+    {
+      id: 'INC-2057', prio: 'P1',
+      title: 'Disco al 98 % en servidor Linux de backups',
+      steps: [
+        { prompt: 'Primer diagnóstico:',
+          good: 'Identificar los consumidores de espacio con du / ncdu',
+          bad: 'Reiniciar el servidor',
+          log: 'Ficheros de backup antiguos sin rotación: ~14 GB ocupados.' },
+        { prompt: 'Liberar espacio de forma controlada:',
+          good: 'Aplicar la política de retención y limpiar logs rotados',
+          bad: 'Borrar /var/backups a mano sin verificar',
+          log: 'Espacio liberado. Disco al 69 %.' },
+        { prompt: 'Para que no vuelva a pasar:',
+          good: 'Programar un script de alerta por umbral con cron',
+          bad: 'Confiar en revisiones manuales semanales',
+          log: 'Alerta automatizada activa. Ticket resuelto.' }
+      ]
+    },
+    {
+      id: 'INC-2063', prio: 'P1',
+      title: 'Nginx devuelve 502 en la web de producción',
+      steps: [
+        { prompt: '¿Qué miras primero?',
+          good: 'Logs de error de Nginx y estado del upstream',
+          bad: 'Reinstalar Nginx entero',
+          log: 'Upstream apuntando a un puerto incorrecto tras el despliegue.' },
+        { prompt: 'Corrige y valida:',
+          good: 'Corregir el puerto, ejecutar nginx -t y recargar',
+          bad: 'Reiniciar la máquina sin validar la configuración',
+          log: 'Configuración válida. Servicio recargado sin cortes.' },
+        { prompt: 'Verificación final:',
+          good: 'Comprobar con curl -I y monitorizar unos minutos',
+          bad: 'Dar por bueno si carga en tu móvil',
+          log: 'Respuesta 200 OK sostenida. SLA cumplido.' }
+      ]
+    }
+  ];
+
+  function itilSimulator() {
+    const el = {
+      queue: $('#queue'), id: $('#t-id'), prio: $('#t-prio'), title: $('#t-title'),
+      fill: $('#sla-fill'), slaText: $('#sla-text'), prompt: $('#t-prompt'),
+      options: $('#options'), log: $('#itil-log'), reset: $('#itil-reset')
+    };
+    if (!el.queue) return;
+    let ticket = null, step = 0, sla = 100;
+
+    const paintSla = () => {
+      el.fill.style.width = `${sla}%`;
+      el.fill.className = sla > 60 ? '' : (sla > 30 ? 'warn' : 'bad');
+      el.slaText.textContent = `SLA ${sla}%`;
+    };
+
+    const log = (msg, cls = '') => {
+      const line = document.createElement('div');
+      line.className = cls;
+      line.textContent = msg;
+      el.log.appendChild(line);
+      el.log.scrollTop = el.log.scrollHeight;
+    };
+
+    const renderStep = () => {
+      el.options.innerHTML = '';
+      if (!ticket) return;
+      if (step >= ticket.steps.length) {
+        el.prompt.textContent = `Ticket cerrado · SLA final ${sla}%. Elige otro de la cola.`;
+        return;
+      }
+      const s = ticket.steps[step];
+      el.prompt.textContent = s.prompt;
+      const choices = [{ text: s.good, ok: true }, { text: s.bad, ok: false }]
+        .sort(() => Math.random() - 0.5);
+      choices.forEach(({ text, ok }) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'btn-option';
+        b.textContent = text;
+        b.addEventListener('click', () => choose(ok, s));
+        el.options.appendChild(b);
+      });
+    };
+
+    const choose = (ok, s) => {
+      if (ok) {
+        log(`✔ ${s.log}`, 'ok');
+        step++;
+      } else {
+        sla = Math.max(0, sla - 20);
+        log('✖ Decisión de riesgo descartada. SLA −20 %', 'bad');
+      }
+      paintSla();
+      renderStep();
+    };
+
+    const select = (t, btn) => {
+      ticket = t;
+      step = 0;
+      sla = 100;
+      el.id.textContent = t.id;
+      el.prio.textContent = t.prio;
+      el.title.textContent = t.title;
+      el.log.innerHTML = '';
+      $$('.queue-item').forEach((b) => b.classList.toggle('active', b === btn));
+      log(`> Ticket ${t.id} asignado · prioridad ${t.prio}`);
+      paintSla();
+      renderStep();
+    };
+
+    const resetAll = () => {
+      ticket = null;
+      step = 0;
+      sla = 100;
+      el.id.textContent = '';
+      el.prio.textContent = '';
+      el.title.textContent = 'Selecciona un ticket';
+      el.log.innerHTML = '';
+      el.prompt.textContent = 'La cola está lista. Atiende cada incidente como lo harías en producción.';
+      el.options.innerHTML = '';
+      $$('.queue-item').forEach((b) => b.classList.remove('active'));
+      paintSla();
+    };
+
+    TICKETS.forEach((t) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'queue-item';
+      const idSpan = document.createElement('span');
+      idSpan.className = 'qi-id';
+      idSpan.textContent = `${t.id} · ${t.prio}`;
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'qi-title';
+      titleSpan.textContent = t.title;
+      b.append(idSpan, titleSpan);
+      b.addEventListener('click', () => select(t, b));
+      el.queue.appendChild(b);
+    });
+
+    el.reset.addEventListener('click', resetAll);
+    resetAll();
+  }
+
+  /* ---------- 8. Terminal CLI ---------- */
+  function terminal() {
+    const out = $('#term-out');
+    const form = $('#term-form');
+    const input = $('#term-in');
+    if (!out || !form || !input) return;
+    const history = [];
+    let hi = -1;
+
+    const print = (lines, cls = '') => {
+      (Array.isArray(lines) ? lines : [lines]).forEach((text) => {
+        const d = document.createElement('div');
+        d.className = `line ${cls}`;
+        d.textContent = text;
+        out.appendChild(d);
+      });
+      out.scrollTop = out.scrollHeight;
+    };
+
+    const commands = {
+      help: () => print([
+        'Comandos disponibles:',
+        '  whoami          Perfil técnico',
+        '  skills          Stack y competencias',
+        '  aws status      Estado SIMULADO de la infraestructura',
+        '  ls proyectos    Proyectos y labs',
+        '  contact         Canales de contacto',
+        '  clear           Limpia la terminal',
+        '  sudo hire-me    Ya sabes qué hace esto'
+      ]),
+
+      whoami: () => print([
+        'brian_tarira · Cloud & Systems Engineer Junior · Barcelona (Mollet del Vallès)',
+        'uid=1000(brian) gid=devops groups=linux,windows,aws,itil'
+      ]),
+
+      skills: () => print([
+        'CLOUD / DEVOPS    AWS (EC2, S3, IAM, Route 53) · Azure / Entra ID · Docker · Compose · Kubernetes (básico) · Git · CI/CD · Nginx',
+        'SISTEMAS          Linux (Debian, Ubuntu, CentOS) · Windows Server 2019/22 · Active Directory · VMware vSphere · Proxmox · Hyper-V · Citrix',
+        'AUTOMATIZACIÓN    Bash · PowerShell',
+        'REDES Y SEGURIDAD TCP/IP · DNS · DHCP · VLANs · VPN IPsec · Cloudflare (WAF/CDN) · MS Defender · Intune (MDM)',
+        'DATOS / GESTIÓN   SQL · MySQL · PostgreSQL · ITIL v4 · Jira'
+      ]),
+
+      'aws status': () => print([
+        '[SIMULACIÓN] aws status --region eu-west-1',
+        '  EC2         web-prod-01       running     OK',
+        '  RDS         pg-portfolio      available   OK',
+        '  S3          backups-bt        healthy     OK',
+        '  Route 53    portfolio.dns     NOERROR     OK',
+        '  CloudWatch  alarmas en ALARM: 0',
+        '  Coste       −18 % tras apagar entornos dev fuera de horario (simulado)'
+      ], 'accent'),
+
+      'ls proyectos': () => print([
+        'restobar-alex/        Web en producción (GitHub Pages)',
+        'backups-ps-bash/      Automatización de backups (Eskape IT)',
+        'aws-jam/              Retos de infraestructura en tiempo real',
+        'hackathon-valencia/   Competición cloud inter-centros',
+        'labs-cloud-sysadmin/  Docker, Linux, Windows Server, AD'
+      ]),
+
+      contact: () => print([
+        'email     briandouglas795@gmail.com',
+        'linkedin  linkedin.com/in/brian-tarira',
+        'github    github.com/briantarira7ea'
+      ]),
+
+      'sudo hire-me': () => {
+        print(['[sudo] contraseña para visitante: ••••••••', 'Acceso concedido. Abriendo canal de contacto...'], 'accent');
+        setTimeout(() => {
+          const target = document.getElementById('contacto');
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        }, 900);
+      }
+    };
+
+    const run = (raw) => {
+      const clean = raw.trim();
+      const cmd = clean.toLowerCase().replace(/\s+/g, ' ');
+      print(`brian@cloud:~$ ${clean}`, 'cmd');
+      if (!cmd) return;
+      if (cmd === 'clear') { out.innerHTML = ''; return; }
+      const fn = commands[cmd];
+      if (fn) fn();
+      else print(`bash: ${clean.split(' ')[0]}: comando no encontrado. Escribe "help".`, 'err');
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const value = input.value;
+      if (value.trim()) history.unshift(value);
+      hi = -1;
+      run(value);
+      input.value = '';
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (hi < history.length - 1) { hi++; input.value = history[hi]; }
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (hi > 0) { hi--; input.value = history[hi]; }
+        else { hi = -1; input.value = ''; }
+      }
+    });
+
+    print([
+      'brian-os v2.0 · sesión simulada en el navegador',
+      'Escribe "help" para ver los comandos disponibles.'
+    ], 'accent');
+  }
+
+  /* ---------- Init ---------- */
+  document.addEventListener('DOMContentLoaded', () => {
+    const year = $('#year');
+    if (year) year.textContent = new Date().getFullYear();
+    matrixRain();
+    typewriter();
+    counters();
+    reveal();
+    nav();
+    architecture();
+    itilSimulator();
+    terminal();
+  });
+})();
