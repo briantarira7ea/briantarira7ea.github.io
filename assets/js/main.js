@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initIncidentSimulator();
 });
 
-/* 1. CLOUD ARCHITECTURE INSPECTOR */
 const nodeData = {
   dns: {
     title: "Route 53 & CloudFront (CDN & DNS)",
@@ -34,7 +33,6 @@ const nodeData = {
 
 function initArchitectureInspector() {
   const nodes = document.querySelectorAll(".arch-node");
-  const inspector = document.getElementById("nodeInspector");
   const titleEl = document.getElementById("inspectorTitle");
   const contentEl = document.getElementById("inspectorContent");
   const closeBtn = document.querySelector(".close-inspector");
@@ -43,7 +41,6 @@ function initArchitectureInspector() {
     node.addEventListener("click", () => {
       nodes.forEach(n => n.classList.remove("active-node"));
       node.classList.add("active-node");
-      
       const key = node.getAttribute("data-node");
       if (nodeData[key]) {
         titleEl.innerHTML = `<i class="fas fa-server"></i> ${nodeData[key].title}`;
@@ -61,7 +58,6 @@ function initArchitectureInspector() {
   }
 }
 
-/* 2. INTERACTIVE TERMINAL SIMULATOR */
 function initTerminal() {
   const input = document.getElementById("terminalInput");
   if (!input) return;
@@ -81,14 +77,12 @@ function runCommand(cmd) {
   const output = document.getElementById("terminalOutput");
   const cleanCmd = cmd.toLowerCase().trim();
 
-  // Create prompt echo
   const promptLine = document.createElement("div");
   promptLine.className = "term-line";
   promptLine.innerHTML = `<span class="term-prompt">brian@aws-cloud:~$</span> ${escapeHtml(cmd)}`;
   output.appendChild(promptLine);
 
   let responseText = "";
-
   switch (cleanCmd) {
     case "help":
       responseText = `
@@ -101,7 +95,6 @@ Comandos disponibles:
   <span class="cmd-keyword">clear</span>          - Limpia la pantalla de la terminal
       `;
       break;
-
     case "skills":
       responseText = `
 [+] Stack Técnico Brian Tarira:
@@ -112,7 +105,6 @@ Comandos disponibles:
   - Metodología: ITIL v4 (Gestión >40 tickets/mes)
       `;
       break;
-
     case "aws status":
       responseText = `
 [AWS Cloud Health Status - us-east-1]
@@ -122,7 +114,6 @@ Comandos disponibles:
   ✔ S3 Backup Buckets ....... OK (Encrypted AES-256)
       `;
       break;
-
     case "terraform plan":
       responseText = `
 <span class="highlight">Terraform v1.6.0 on linux_amd64</span>
@@ -137,7 +128,6 @@ An execution plan has been generated:
 Plan: 3 to add, 0 to change, 0 to destroy.
       `;
       break;
-
     case "cat cv.txt":
       responseText = `
 BRIAN TARIRA - Cloud & Systems Engineer Junior
@@ -147,19 +137,16 @@ Idiomas: Español (Nativo), Catalán (Nativo), Inglés (B2)
 Resumen: Especialista en soporte N1/N2, automatización de sistemas y despliegues en AWS Cloud con enfoque en mejores prácticas ITIL.
       `;
       break;
-
     case "contacto":
       responseText = `
 Email: briandouglas795@gmail.com
 GitHub: https://github.com/briantarira7ea
-LinkedIn: https://linkedin.com/in/briantarira
+LinkedIn: https://linkedin.com/in/brian-tarira/
       `;
       break;
-
     case "clear":
       output.innerHTML = "";
       return;
-
     default:
       responseText = `Comando no reconocido: <span style="color:#ef4444">${escapeHtml(cmd)}</span>. Escribe <span class="cmd-keyword">'help'</span> para ver la lista.`;
       break;
@@ -169,7 +156,6 @@ LinkedIn: https://linkedin.com/in/briantarira
   responseLine.className = "term-line";
   responseLine.innerHTML = responseText;
   output.appendChild(responseLine);
-
   output.scrollTop = output.scrollHeight;
 }
 
@@ -177,7 +163,6 @@ function escapeHtml(text) {
   return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-/* 3. INCIDENT SIMULATOR DATA */
 const ticketsData = {
   1: {
     title: "#INC-402: Provisionamiento Entra ID & Intune",
@@ -243,6 +228,5 @@ function initIncidentSimulator() {
     });
   });
 
-  // Render first by default
   renderTicket(1);
 }
