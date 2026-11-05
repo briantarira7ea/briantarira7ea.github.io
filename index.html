@@ -1,326 +1,347 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brian Tarira · Cloud & DevOps Engineer</title>
-  <meta name="description" content="Portfolio de Brian Tarira: Cloud & Systems Engineer Junior, DevOps (AWS), automatización ITIL y administración de Windows Server y Linux.">
-  <meta name="theme-color" content="#05070d">
-  <meta property="og:title" content="Brian Tarira · Cloud & DevOps Engineer">
-  <meta property="og:description" content="Infraestructura cloud, automatización y operaciones ITIL. Terminal interactiva y arquitectura clicable.">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="assets/img/brian.png">
+  <title>Brian Tarira | Cloud & Systems Engineer | DevOps Junior</title>
+  <meta name="description" content="Portafolio profesional de Brian Tarira - Especialista en Cloud AWS, Administración de Sistemas Linux/Windows, Automatización y DevOps.">
+  <link rel="stylesheet" href="assets/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <script src="assets/js/main.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" defer></script>
 </head>
 <body>
-  <canvas id="matrix" aria-hidden="true"></canvas>
 
-  <header class="nav">
-    <a href="#inicio" class="logo">BT<span>//</span>cloud</a>
-    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
-    <nav class="nav-links">
-      <a href="#arquitectura">Arquitectura</a>
-      <a href="#terminal">Terminal</a>
-      <a href="#itil">ITIL Lab</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#experiencia">Experiencia</a>
-      <a href="#contacto" class="btn-neon sm">Contacto</a>
-    </nav>
+  <!-- Background Animated Grid -->
+  <div class="bg-grid"></div>
+  <div class="glow-sphere sphere-1"></div>
+  <div class="glow-sphere sphere-2"></div>
+
+  <!-- Header / Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-badge">BT</span>
+        <span class="logo-text">Brian Tarira <span class="badge-status">AWS Certified Path</span></span>
+      </a>
+      <nav class="nav-menu">
+        <a href="#arquitectura" class="nav-link"><i class="fas fa-network-wired"></i> Arquitectura</a>
+        <a href="#terminal" class="nav-link"><i class="fas fa-terminal"></i> Terminal CLI</a>
+        <a href="#experiencia" class="nav-link"><i class="fas fa-briefcase"></i> Experiencia</a>
+        <a href="#incidentes" class="nav-link"><i class="fas fa-bug"></i> Simulador ITIL</a>
+        <a href="#proyectos" class="nav-link"><i class="fas fa-code-branch"></i> Proyectos</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="docs/CV_Brian_Tarira_ES.pdf" class="btn btn-outline" download><i class="fas fa-file-download"></i> Descargar CV</a>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <!-- HERO -->
-    <section id="inicio" class="hero container">
-      <div class="hero-text">
-        <p class="eyebrow">&gt; init --profile brian_tarira</p>
-        <h1>Diseño, automatizo y <span class="neon">escalo infraestructura cloud.</span></h1>
-        <p class="typing"><span id="typed"></span><span class="cursor">▋</span></p>
-        <p class="lead">Cloud &amp; Systems Engineer Junior con experiencia real en producción bajo ITIL. Windows Server, Linux, identidades en Entra ID y automatización con PowerShell y Bash: menos trabajo manual, más servicio estable.</p>
-        <div class="cta">
-          <a href="#proyectos" class="btn-neon">Ver proyectos</a>
-          <a href="#contacto" class="btn-ghost">Contactar</a>
+  <main class="main-content">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-container">
+        <div class="hero-text">
+          <div class="badge-pill">
+            <span class="pulse-dot"></span> Disponible para roles Cloud / DevOps & Prácticas Erasmus+
+          </div>
+          <h1 class="hero-title">
+            Infraestructura Resiliente, <br>
+            <span class="gradient-text">Automatización & Cloud AWS</span>
+          </h1>
+          <p class="hero-subtitle">
+            <strong>Cloud & Systems Engineer Junior</strong> con experiencia práctica administrando entornos híbridos Windows/Linux, automatizando flujos con PowerShell y Bash, y desplegando arquitectura cloud en AWS con rigor ITIL.
+          </p>
+          <div class="hero-tags">
+            <span class="tag"><i class="fab fa-aws"></i> AWS Cloud</span>
+            <span class="tag"><i class="fab fa-linux"></i> Linux & Windows Admin</span>
+            <span class="tag"><i class="fas fa-terminal"></i> PowerShell & Bash</span>
+            <span class="tag"><i class="fas fa-project-diagram"></i> ITIL v4</span>
+            <span class="tag"><i class="fas fa-layer-group"></i> Terraform</span>
+          </div>
+          <div class="hero-buttons">
+            <a href="#terminal" class="btn btn-primary"><i class="fas fa-terminal"></i> Probar CLI Interactivo</a>
+            <a href="https://github.com/briantarira7ea" target="_blank" class="btn btn-secondary"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://www.linkedin.com/in/brian-tarira/" target="_blank" class="btn btn-secondary"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          </div>
+        </div>
+        
+        <div class="hero-card">
+          <div class="profile-card-glass">
+            <div class="profile-header">
+              <!-- Using the provided photo name -->
+              <img src="assets/foto.jpg" alt="Brian Tarira" class="profile-img">
+              <div class="profile-info">
+                <h3>Brian Tarira</h3>
+                <p>Barcelona / Mollet del Vallès</p>
+                <span class="status-online"><i class="fas fa-circle"></i> Sistemas Operativos & Cloud</span>
+              </div>
+            </div>
+            <div class="profile-metrics">
+              <div class="metric">
+                <span class="metric-num">+40</span>
+                <span class="metric-label">Tickets/mes ITIL</span>
+              </div>
+              <div class="metric">
+                <span class="metric-num">-60%</span>
+                <span class="metric-label">Tiempo manual</span>
+              </div>
+              <div class="metric">
+                <span class="metric-num">B2</span>
+                <span class="metric-label">Inglés Técnico</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <figure class="hero-photo">
-        <img src="assets/img/brian.png" alt="Retrato de Brian Tarira">
-      </figure>
     </section>
 
-    <!-- MÉTRICAS -->
-    <section class="container metrics reveal" aria-label="Métricas clave">
-      <div class="metric">
-        <strong data-count="60" data-suffix="%+">0</strong>
-        <span>Reducción del trabajo manual con scripts PowerShell y Bash</span>
+    <!-- INTERACTIVE AWS & INFRA visualizer -->
+    <section id="arquitectura" class="section">
+      <div class="section-header">
+        <span class="section-tag">Infraestructura Viva</span>
+        <h2>Simulador de Arquitectura Cloud Híbrida</h2>
+        <p>Haz clic en cada componente para ver la configuración de infraestructura, scripts de automatización y servicios asociados.</p>
       </div>
-      <div class="metric">
-        <strong data-count="40" data-prefix="+" data-suffix="/mes">0</strong>
-        <span>Tickets L1/L2 resueltos en Jira bajo SLA e ITIL</span>
-      </div>
-      <div class="metric">
-        <strong data-count="200" data-prefix="+">0</strong>
-        <span>Equipos Windows y Linux atendidos en soporte</span>
+
+      <div class="cloud-diagram-container">
+        <div class="diagram-grid">
+          
+          <!-- Component 1: Route53 / CDN -->
+          <div class="arch-node" data-node="dns">
+            <div class="node-icon"><i class="fas fa-globe"></i></div>
+            <div class="node-title">Route 53 & CloudFront</div>
+            <div class="node-sub">DNS, SSL & Content Delivery</div>
+            <span class="node-badge status-ok">Healthy</span>
+          </div>
+
+          <div class="arch-connector"><i class="fas fa-arrow-right"></i></div>
+
+          <!-- Component 2: ALB / Ingress -->
+          <div class="arch-node" data-node="alb">
+            <div class="node-icon"><i class="fas fa-network-wired"></i></div>
+            <div class="node-title">Application Load Balancer</div>
+            <div class="node-sub">Traffic Distribution & Health Checks</div>
+            <span class="node-badge status-ok">Active</span>
+          </div>
+
+          <div class="arch-connector"><i class="fas fa-arrow-right"></i></div>
+
+          <!-- Component 3: EC2 Auto Scaling / App Tier -->
+          <div class="arch-node" data-node="compute">
+            <div class="node-icon"><i class="fab fa-aws"></i></div>
+            <div class="node-title">EC2 Auto Scaling Group</div>
+            <div class="node-sub">Linux/Windows NGINX & Workloads</div>
+            <span class="node-badge status-ok">3 Instances</span>
+          </div>
+
+          <div class="arch-connector"><i class="fas fa-arrow-right"></i></div>
+
+          <!-- Component 4: IAM & Security -->
+          <div class="arch-node" data-node="iam">
+            <div class="node-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="node-title">IAM & Entra ID (Hybrid)</div>
+            <div class="node-sub">RBAC, MFA & Least Privilege</div>
+            <span class="node-badge status-ok">Secured</span>
+          </div>
+
+          <!-- Component 5: Storage S3 & Backup -->
+          <div class="arch-node" data-node="storage">
+            <div class="node-icon"><i class="fas fa-database"></i></div>
+            <div class="node-title">AWS S3 & Backup Scripts</div>
+            <div class="node-sub">Lifecycle rules & Automated Bash backups</div>
+            <span class="node-badge status-ok">Encrypted</span>
+          </div>
+
+          <!-- Component 6: Automation & IaC -->
+          <div class="arch-node" data-node="iac">
+            <div class="node-icon"><i class="fas fa-code"></i></div>
+            <div class="node-title">Terraform & Bash CI/CD</div>
+            <div class="node-sub">Infrastructure as Code & Shell Pipelines</div>
+            <span class="node-badge status-ok">Automated</span>
+          </div>
+
+        </div>
+
+        <!-- Node Inspector Panel -->
+        <div class="node-inspector" id="nodeInspector">
+          <div class="inspector-header">
+            <h4 id="inspectorTitle"><i class="fas fa-info-circle"></i> Selecciona un nodo del diagrama arriba</h4>
+            <span class="close-inspector">&times;</span>
+          </div>
+          <div class="inspector-body" id="inspectorContent">
+            <p class="text-muted">Haz clic en cualquier nodo para inspeccionar los detalles técnicos, comandos utilizados y la metodología aplicada por Brian.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ARQUITECTURA -->
-    <section id="arquitectura" class="section container reveal">
-      <header class="section-head">
-        <span class="tag">02 // ARCHITECTURE</span>
-        <h2>Arquitectura cloud interactiva</h2>
-        <p class="muted">Haz clic en cada nodo para ver qué diseño, por qué y qué impacto tiene. Es una arquitectura de referencia de aplicación web en AWS con identidad híbrida, que practico en mis labs y en AWS Jam.</p>
-      </header>
+    <!-- INTERACTIVE TERMINAL SECTION -->
+    <section id="terminal" class="section">
+      <div class="section-header">
+        <span class="section-tag">CLI interactiva</span>
+        <h2>Terminal Cloud & Systems Executer</h2>
+        <p>Interactúa directamente con la consola virtual para consultar habilidades, ejecutar diagnósticos o ver scripts.</p>
+      </div>
 
-      <div class="arch-wrap">
-        <div class="arch-canvas">
-          <svg id="arch-svg" viewBox="0 0 900 400" role="img" aria-label="Diagrama de arquitectura cloud">
-            <!-- Enlaces (debajo de los nodos) -->
-            <g class="links">
-              <line class="link" x1="170" y1="212" x2="205" y2="212"/>
-              <line class="link" x1="345" y1="212" x2="380" y2="212"/>
-              <line class="link" x1="520" y1="212" x2="555" y2="212"/>
-              <line class="link" x1="695" y1="212" x2="740" y2="212"/>
-              <line class="link" x1="695" y1="196" x2="740" y2="112"/>
-              <line class="link" x1="275" y1="124" x2="275" y2="180"/>
-              <line class="link dashed" x1="450" y1="300" x2="450" y2="244"/>
-              <line class="link dashed" x1="740" y1="316" x2="695" y2="232"/>
-            </g>
-
-            <!-- Nodos -->
-            <g class="node edge" data-node="users" tabindex="0" role="button" aria-label="Usuarios">
-              <rect x="30" y="180" width="140" height="64" rx="10"/>
-              <text x="100" y="208" class="node-title">Usuarios</text>
-              <text x="100" y="226" class="node-sub">Web · Móvil</text>
-            </g>
-            <g class="node sec" data-node="cloudflare" tabindex="0" role="button" aria-label="Cloudflare">
-              <rect x="205" y="180" width="140" height="64" rx="10"/>
-              <text x="275" y="208" class="node-title">Cloudflare</text>
-              <text x="275" y="226" class="node-sub">WAF · CDN</text>
-            </g>
-            <g class="node aws" data-node="route53" tabindex="0" role="button" aria-label="Route 53">
-              <rect x="205" y="60" width="140" height="64" rx="10"/>
-              <text x="275" y="88" class="node-title">Route 53</text>
-              <text x="275" y="106" class="node-sub">DNS · Failover</text>
-            </g>
-            <g class="node aws" data-node="nginx" tabindex="0" role="button" aria-label="Nginx">
-              <rect x="380" y="180" width="140" height="64" rx="10"/>
-              <text x="450" y="208" class="node-title">Nginx</text>
-              <text x="450" y="226" class="node-sub">Proxy · TLS</text>
-            </g>
-            <g class="node aws" data-node="ec2" tabindex="0" role="button" aria-label="EC2 Docker">
-              <rect x="555" y="180" width="140" height="64" rx="10"/>
-              <text x="625" y="208" class="node-title">EC2 · Docker</text>
-              <text x="625" y="226" class="node-sub">Compose · CI/CD</text>
-            </g>
-            <g class="node aws" data-node="rds" tabindex="0" role="button" aria-label="PostgreSQL">
-              <rect x="740" y="60" width="140" height="64" rx="10"/>
-              <text x="810" y="88" class="node-title">PostgreSQL</text>
-              <text x="810" y="106" class="node-sub">Datos · Backups</text>
-            </g>
-            <g class="node aws" data-node="s3" tabindex="0" role="button" aria-label="S3">
-              <rect x="740" y="180" width="140" height="64" rx="10"/>
-              <text x="810" y="208" class="node-title">S3</text>
-              <text x="810" y="226" class="node-sub">Backups · Lifecycle</text>
-            </g>
-            <g class="node sec" data-node="iam" tabindex="0" role="button" aria-label="IAM">
-              <rect x="740" y="300" width="140" height="64" rx="10"/>
-              <text x="810" y="328" class="node-title">IAM</text>
-              <text x="810" y="346" class="node-sub">Mínimo privilegio</text>
-            </g>
-            <g class="node azure" data-node="entra" tabindex="0" role="button" aria-label="Entra ID">
-              <rect x="380" y="300" width="140" height="64" rx="10"/>
-              <text x="450" y="328" class="node-title">Entra ID</text>
-              <text x="450" y="346" class="node-sub">Identidad · Intune</text>
-            </g>
-          </svg>
-          <div class="legend mono">
-            <span><i class="lg aws"></i>AWS</span>
-            <span><i class="lg azure"></i>Azure</span>
-            <span><i class="lg sec"></i>Seguridad</span>
-            <span><i class="lg edge"></i>Edge / Usuarios</span>
+      <div class="terminal-wrapper">
+        <div class="terminal-bar">
+          <div class="terminal-buttons">
+            <span class="term-btn btn-red"></span>
+            <span class="term-btn btn-yellow"></span>
+            <span class="term-btn btn-green"></span>
+          </div>
+          <div class="terminal-title">brian@sysadmin-workstation: ~/portfolio (bash)</div>
+          <div class="terminal-actions">
+            <span class="term-badge"><i class="fas fa-check-circle"></i> Online</span>
           </div>
         </div>
 
-        <aside id="arch-detail" class="arch-detail" aria-live="polite"></aside>
-      </div>
-    </section>
-
-    <!-- TERMINAL -->
-    <section id="terminal" class="section container reveal">
-      <header class="section-head">
-        <span class="tag">01 // CLI</span>
-        <h2>Terminal interactiva</h2>
-        <p class="muted">Escribe <code class="mono">help</code> para empezar. Los comandos son reales dentro de esta página; las respuestas de infraestructura son simuladas y están marcadas como tal.</p>
-      </header>
-      <div class="terminal">
-        <div class="term-bar">
-          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-          <span class="term-title">brian@cloud:~</span>
+        <div class="terminal-body" id="terminalOutput">
+          <div class="term-line">Bienvenido a la terminal interactiva de <span class="highlight">Brian Tarira</span>.</div>
+          <div class="term-line">Escribe <span class="cmd-keyword">'help'</span> para ver la lista de comandos disponibles.</div>
+          <div class="term-line-gap"></div>
         </div>
-        <div class="term-body" id="term-out" aria-live="polite"></div>
-        <form class="term-input" id="term-form" autocomplete="off">
-          <label for="term-in" class="prompt-sign">brian@cloud:~$</label>
-          <input id="term-in" type="text" spellcheck="false" aria-label="Entrada de terminal">
-        </form>
-      </div>
-    </section>
 
-    <!-- ITIL LAB -->
-    <section id="itil" class="section container reveal">
-      <header class="section-head">
-        <span class="tag">03 // ITIL SIMULATOR</span>
-        <h2>Simulador de incidentes ITIL</h2>
-        <p class="muted">Atiende los tickets como en un Service Desk real. Cada decisión cuenta: cuida el SLA y no toques nada que no hayas diagnosticado.</p>
-      </header>
-      <div class="itil-grid">
-        <div class="queue" id="queue" aria-label="Cola de tickets"></div>
-        <div class="console-box">
-          <div class="ticket-head mono">
-            <span id="t-id"></span>
-            <span id="t-prio"></span>
-          </div>
-          <h3 id="t-title">Selecciona un ticket</h3>
-          <div class="sla">
-            <div class="sla-bar"><span id="sla-fill"></span></div>
-            <small id="sla-text" class="mono">SLA 100%</small>
-          </div>
-          <p id="t-prompt" class="prompt"></p>
-          <div class="options" id="options"></div>
-          <div class="itil-log mono" id="itil-log" aria-live="polite"></div>
-          <button class="btn-ghost sm" id="itil-reset" type="button">Reiniciar cola</button>
+        <div class="terminal-input-row">
+          <span class="term-prompt">brian@aws-cloud:~$</span>
+          <input type="text" id="terminalInput" placeholder="Escribe 'help', 'skills', 'aws', 'projects', 'cat cv.txt'..." autofocus autocomplete="off">
+        </div>
+
+        <div class="quick-commands">
+          <span class="quick-title">Comandos rápidos:</span>
+          <button class="btn-chip" onclick="runCommand('help')">help</button>
+          <button class="btn-chip" onclick="runCommand('skills')">skills</button>
+          <button class="btn-chip" onclick="runCommand('aws status')">aws status</button>
+          <button class="btn-chip" onclick="runCommand('terraform plan')">terraform plan</button>
+          <button class="btn-chip" onclick="runCommand('cat cv.txt')">cat cv.txt</button>
+          <button class="btn-chip" onclick="runCommand('clear')">clear</button>
         </div>
       </div>
     </section>
 
-    <!-- PROYECTOS -->
-    <section id="proyectos" class="section container reveal">
-      <header class="section-head">
-        <span class="tag">04 // PROJECTS</span>
-        <h2>Proyectos y competiciones</h2>
-        <p class="muted">Código y operaciones reales: desde una web en producción hasta retos de infraestructura cloud contrarreloj.</p>
-      </header>
-      <div class="grid-projects">
-        <article class="card">
-          <div class="icon">🍔</div>
-          <h3>Restobar Alex</h3>
-          <p>Web en producción, responsive y con SEO, publicada en GitHub Pages. Incluye menú digital preparado para impresión.</p>
-          <ul class="tags"><li>HTML</li><li>CSS</li><li>SEO</li><li>GitHub Pages</li></ul>
-          <a class="more" href="https://restobaralex.github.io/menu-restobar-alex" target="_blank" rel="noopener">Ver web →</a>
-        </article>
-        <article class="card">
-          <div class="icon">⚙️</div>
-          <h3>Automatización de backups</h3>
-          <p>Scripts PowerShell y Bash para backups y mantenimiento en Eskape IT. Reducción superior al 60 % del tiempo manual.</p>
-          <ul class="tags"><li>PowerShell</li><li>Bash</li><li>ITIL</li></ul>
-        </article>
-        <article class="card">
-          <div class="icon">🏆</div>
-          <h3>AWS Jam</h3>
-          <p>Competición oficial de AWS resolviendo retos de infraestructura en tiempo real, bajo presión y con foco en la arquitectura.</p>
-          <ul class="tags"><li>AWS</li><li>Infraestructura</li><li>Tiempo real</li></ul>
-        </article>
-        <article class="card">
-          <div class="icon">☁️</div>
-          <h3>Hackathon Cloud Computing</h3>
-          <p>Competición inter-centros de infraestructura cloud en Valencia. Diseño y despliegue en equipo con objetivos ajustados.</p>
-          <ul class="tags"><li>Cloud</li><li>Trabajo en equipo</li></ul>
-        </article>
-        <article class="card">
-          <div class="icon">🧪</div>
-          <h3>Labs Cloud / SysAdmin</h3>
-          <p>Laboratorios públicos con Docker, Linux, Windows Server, Active Directory y scripts de automatización.</p>
-          <ul class="tags"><li>Docker</li><li>Active Directory</li><li>Scripts</li></ul>
-          <a class="more" href="https://github.com/briantarira7ea" target="_blank" rel="noopener">GitHub →</a>
-        </article>
+    <!-- INCIDENT SIMULATOR (ITIL) -->
+    <section id="incidentes" class="section">
+      <div class="section-header">
+        <span class="section-tag">Metodología & Soporte ITIL</span>
+        <h2>Simulador de Resolución de Incidentes ITIL</h2>
+        <p>Selecciona un escenario de soporte para ver cómo aplico el ciclo de vida de resolución de tickets de nivel 1/2.</p>
+      </div>
+
+      <div class="ticket-simulator">
+        <div class="ticket-selector">
+          <button class="ticket-btn active" data-ticket="1">
+            <span class="ticket-id">#INC-402</span>
+            <span class="ticket-title">Provisionamiento Entra ID / Intune</span>
+            <span class="ticket-prio prio-med">Media</span>
+          </button>
+          <button class="ticket-btn" data-ticket="2">
+            <span class="ticket-id">#INC-809</span>
+            <span class="ticket-title">Fallo de alta latencia en Instancia EC2</span>
+            <span class="ticket-prio prio-high">Alta</span>
+          </button>
+          <button class="ticket-btn" data-ticket="3">
+            <span class="ticket-id">#INC-105</span>
+            <span class="ticket-title">Fallo de Script de Backup PowerShell</span>
+            <span class="ticket-prio prio-low">Baja</span>
+          </button>
+        </div>
+
+        <div class="ticket-display" id="ticketDetails">
+          <!-- Populated by JS -->
+        </div>
       </div>
     </section>
 
-    <!-- EXPERIENCIA -->
-    <section id="experiencia" class="section container reveal">
-      <header class="section-head">
-        <span class="tag">05 // EXPERIENCE</span>
-        <h2>Experiencia y formación</h2>
-      </header>
-      <div class="two-col">
-        <div class="timeline">
-          <div class="tl-item">
-            <span class="tl-date mono">Oct 2025 – Jul 2026</span>
+    <!-- EXPERIENCIA Y FORMACION -->
+    <section id="experiencia" class="section">
+      <div class="section-header">
+        <span class="section-tag">Trayectoria</span>
+        <h2>Experiencia y Formación Técnica</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-icon"><i class="fas fa-briefcase"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Oct. 2025 - Jul. 2026</span>
             <h3>Técnico de Sistemas / Service Desk IT Junior</h3>
-            <p class="org">Eskape IT Services · consultora IT bajo ITIL</p>
+            <span class="company-tag">Eskape IT Services</span>
+            <p>Resolución proactiva de más de 40 tickets mensuales (L1/L2) siguiendo estándares ITIL v4. Gestión de Active Directory, Entra ID, M365, automatización de tareas con scripts reduciendo +60% el trabajo manual.</p>
             <ul>
-              <li>Scripts PowerShell y Bash para backups y mantenimiento: reducción superior al 60 % del tiempo manual.</li>
-              <li>Más de 40 tickets/mes (L1/L2) en Jira y TeamViewer bajo SLA, con atención bilingüe ES/EN.</li>
-              <li>Administración de Windows Server 2019/22 y Linux (Debian/Ubuntu): Active Directory, DNS, DHCP y GPO.</li>
-              <li>Identidades y dispositivos con Entra ID, Intune (MDM) y M365 / Exchange.</li>
-              <li>Seguridad e infraestructura: Microsoft Defender, VPN site-to-site IPsec, VLANs y migraciones P2V en VMware vSphere.</li>
-            </ul>
-          </div>
-          <div class="tl-item">
-            <span class="tl-date mono">Ene – Jun 2024</span>
-            <h3>Técnico en Sistemas Microinformáticos (Prácticas)</h3>
-            <p class="org">Quatre Cantons</p>
-            <ul>
-              <li>Soporte a más de 200 equipos Windows y Linux, diagnóstico de red LAN y scripts de backup automatizados.</li>
-            </ul>
-          </div>
-          <div class="tl-item">
-            <span class="tl-date mono">Jun – Ago 2026</span>
-            <h3>Técnico de Instalaciones de Cámaras de Seguridad</h3>
-            <p class="org">Tecnocat Seguretat</p>
-            <ul>
-              <li>Instalación y programación de sistemas de videovigilancia.</li>
-            </ul>
-          </div>
-          <div class="tl-item">
-            <span class="tl-date mono">2023 – 2026</span>
-            <h3>Atención al cliente y trabajo en equipo</h3>
-            <p class="org">Consum · La Tagliatella · restaurante en Sants</p>
-            <ul>
-              <li>Trato al cliente, trabajo bajo presión y adaptabilidad en entornos de servicio.</li>
+              <li><i class="fas fa-check"></i> Diagnóstico LAN, resolución de incidencias en Windows y Linux.</li>
+              <li><i class="fas fa-check"></i> Automatización de backups y mantenimiento con PowerShell y Bash.</li>
+              <li><i class="fas fa-check"></i> Gestión de identidades (Entra ID) y dispositivos (Microsoft Intune).</li>
+              <li><i class="fas fa-check"></i> Seguridad e infra: Microsoft Defender, VPN IPsec, VLANs, VMware vSphere.</li>
             </ul>
           </div>
         </div>
 
-        <div>
-          <h3 class="mb">Formación</h3>
-          <div class="edu-list">
-            <div class="edu"><strong>Máster de Especialización en AWS Cloud Computing</strong><span class="mono">Institut Tecnològic de Barcelona (ITB) · En curso</span></div>
-            <div class="edu"><strong>CFGS ASIX · Administración de Sistemas Informáticos en Red</strong><span class="mono">Institut TIC Barcelona · Jun 2026</span></div>
-            <div class="edu"><strong>CFGM SMR · Sistemas Microinformáticos y Redes</strong><span class="mono">Institut TIC Barcelona · Jun 2024</span></div>
+        <div class="timeline-item">
+          <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">En Curso</span>
+            <h3>Máster de Especialización en AWS Cloud Computing</h3>
+            <span class="company-tag">Institut Tecnològic de Barcelona (ITB)</span>
+            <p>Formación avanzada en administración de sistemas cloud en Amazon Web Services, infraestructura como código (IaC) con Terraform, pipelines CI/CD y despliegue de contenedores (Docker/Kubernetes).</p>
           </div>
-
-          <h3 class="mb">Stack</h3>
-          <ul class="tags big">
-            <li>AWS</li><li>Azure</li><li>Docker</li><li>Kubernetes (básico)</li><li>Linux</li><li>Windows Server</li><li>Active Directory</li><li>Entra ID</li><li>Intune</li><li>PowerShell</li><li>Bash</li><li>Nginx</li><li>PostgreSQL</li><li>VMware</li><li>Proxmox</li><li>ITIL v4</li><li>Jira</li>
-          </ul>
-
-          <h3 class="mb">Idiomas</h3>
-          <p class="muted">Español y catalán (nativos) · Inglés B2 (First), usado a diario en soporte y documentación profesional.</p>
+        </div>
+        
+         <div class="timeline-item">
+          <div class="timeline-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Jun. 2026</span>
+            <h3>CFGS ASIX (Administración de Sistemas Informáticos en Red)</h3>
+            <span class="company-tag">Institut TIC Barcelona</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- PROYECTOS -->
+    <section id="proyectos" class="section">
+      <div class="section-header">
+        <span class="section-tag">Portfolio</span>
+        <h2>Proyectos Destacados</h2>
+      </div>
+      
+      <div class="projects-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        <!-- Project 1 -->
+        <div class="project-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; transition: transform 0.3s;">
+          <h3 style="color: var(--accent-aws);"><i class="fab fa-aws"></i> AWS Jam & Hackathon Cloud</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin: 10px 0;">Competición oficial de AWS resolviendo retos de infraestructura en tiempo real y participación en Hackathon Cloud Computing (Valencia).</p>
+        </div>
+        <!-- Project 2 -->
+        <div class="project-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; transition: transform 0.3s;">
+          <h3 style="color: var(--accent-blue);"><i class="fas fa-utensils"></i> Restobar Alex</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin: 10px 0;">Web real en producción, responsive y con SEO, alojada en GitHub Pages.</p>
+          <a href="https://restobaralex.github.io/menu-restobar-alex" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-size: 0.85rem;"><i class="fas fa-external-link-alt"></i> Ver proyecto</a>
+        </div>
+        <!-- Project 3 -->
+        <div class="project-card" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; transition: transform 0.3s;">
+          <h3 style="color: var(--accent-green);"><i class="fas fa-server"></i> Labs Cloud / SysAdmin</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin: 10px 0;">Prácticas en GitHub de Docker, Linux, Windows Server, Active Directory y scripts de automatización.</p>
+          <a href="https://github.com/briantarira7ea" target="_blank" style="color: var(--accent-green); text-decoration: none; font-size: 0.85rem;"><i class="fab fa-github"></i> Ver repositorio</a>
         </div>
       </div>
     </section>
 
-    <!-- CONTACTO -->
-    <section id="contacto" class="section container reveal">
-      <div class="contact">
-        <span class="tag">06 // CONTACT</span>
-        <h2>¿Hablamos de tu próxima infraestructura?</h2>
-        <p>Busco una oportunidad como Cloud, Systems o DevOps Engineer donde pueda aportar automatización, operaciones estables y buen trato al cliente. Respondo rápido.</p>
-        <div class="contact-links">
-          <a class="btn-neon" href="mailto:briandouglas795@gmail.com">briandouglas795@gmail.com</a>
-          <a class="btn-ghost" href="https://www.linkedin.com/in/brian-tarira" target="_blank" rel="noopener">LinkedIn</a>
-          <a class="btn-ghost" href="https://github.com/briantarira7ea" target="_blank" rel="noopener">GitHub</a>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-container">
+        <p>&copy; 2026 Brian Tarira. Portafolio Cloud & Systems Engineering.</p>
+        <div class="footer-links">
+          <a href="https://github.com/briantarira7ea" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/brian-tarira/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <a href="mailto:briandouglas795@gmail.com"><i class="fas fa-envelope"></i> Contacto</a>
         </div>
-        <p class="mono small">Barcelona · Mollet del Vallès</p>
       </div>
-    </section>
+    </footer>
+
   </main>
 
-  <footer>
-    <p>© <span id="year"></span> Brian Tarira · Hecho a mano con HTML, CSS y JS · Desplegado en GitHub Pages</p>
-  </footer>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
