@@ -14,7 +14,7 @@
 
 📍 Barcelona · Mollet del Vallès &nbsp;|&nbsp; 🗣️ ES · CAT · EN (B2)
 
-[💼 LinkedIn](https://www.linkedin.com/in/brian-tarira) · [✉️ Email](mailto:briandouglas795@gmail.com) · [📄 CV (PDF)](docs/CV_Brian_Tarira_ES.pdf) · [🌐 Portafolio web](https://briantarira7ea.github.io/CV-Portafolio/)
+[💼 LinkedIn](https://www.linkedin.com/in/brian-tarira) · [✉️ Email](mailto:briandouglas795@gmail.com) · [📄 CV (PDF)](docs/CV_Brian_Tarira_ES.pdf) · [🌐 Portafolio web](https://briantarira7ea.github.io/)
 
 </div>
 
