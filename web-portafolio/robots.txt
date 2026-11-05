@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://briantarira7ea.github.io/sitemap.xml

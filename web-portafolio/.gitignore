@@ -1,0 +1,9 @@
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+.env
+*.pem
+*.key
+.DS_Store
+Thumbs.db
