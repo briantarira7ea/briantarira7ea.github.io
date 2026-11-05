@@ -1,0 +1,11 @@
+# Terraform / secretos (por si el repo crece)
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+.env
+*.pem
+*.key
+# Sistema
+.DS_Store
+Thumbs.db
